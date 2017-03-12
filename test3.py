@@ -15,7 +15,7 @@ def make_github_issue(title, body=None, milestone=None, labels=None):
     # Our url to create issues via POST
     url = 'https://api.github.com/repos/%s/%s/issues' % (REPO_OWNER, REPO_NAME)
     # Create an authenticated session to create the issue
-    # session = requests.session(auth=(USERNAME, PASSWORD))
+    #session = requests.session(auth=(USERNAME, PASSWORD))
     s = requests.session()
     s.auth = (USERNAME,PASSWORD)
     # Create our issue
@@ -37,4 +37,26 @@ def make_github_issue(title, body=None, milestone=None, labels=None):
         print('Could not create Issue "%s"' % title)
         print('Response:', r.content) 
 
-make_github_issue('creatissue', 'Body text', None, ['bug'])
+CREATOR = 'ruibofeng'
+TIME = '2017-01-01T00:00:00Z'
+payload = {'creator':CREATOR,
+			'since':TIME}
+
+def get_github_issue():
+	url = 'https://api.github.com/repos/%s/%s/issues' % (REPO_OWNER, REPO_NAME)
+	s = requests.session()
+
+	s.auth = (USERNAME,PASSWORD)
+ #   issue = {'creator':creator,'since':since,'state':state}
+	r = s.get(url, params = payload)
+	print(r.text)
+    # if r.status_code == 201:
+    #     # print('Successfully get Issue "%s"' % creator)
+    #     print('ok')
+    # else:
+    #     # print('Could not get Issue "%s"' % creator)
+    #     print('Response:', r.content) 
+
+
+#make_github_issue('creatissue', 'Body text', None, ['bug'])
+get_github_issue()
