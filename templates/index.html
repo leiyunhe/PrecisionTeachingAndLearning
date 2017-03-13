@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style type="text/css">
+
+</style>
+</head>
+
+<body align = "center">
+<h1>Precision Teaching And Learning</h1>
+<hr/>
+<table align = "center">
+
+<tr>
+<p>Input your Github username</p>	
+</tr>
+
+<tr>
+<td>
+<form action="/" method = "post">
+Github UserName:<input type="text" name="UserName"><br><br>
+Github PassWord:<input type="text" name="PassWord"><br><br>
+<input type="submit" name="query" value="Personal Performance">
+<input type="submit" name="query" value="Relative Performance"><br><br>
+</form>
+</td>
+</tr>
+
+<tr>
+<td>
+<form action="/" method = "get" >
+<input type="submit" name="history" value="history">
+<input type="submit" name="help" value="help" >
+</form>
+</td>
+
+</tr>
+
+</table>
+<br><br>
+
+{% for k in result %}
+<p>{{k}}</p>
+{% endfor %}
+
+</body>
+</html>

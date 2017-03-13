@@ -21,21 +21,14 @@ def get_github_issue():
 	s = requests.session()
 
 	s.auth = (USERNAME,PASSWORD)
- #   issue = {'creator':creator,'since':since,'state':state}
 	r = s.get(url, params = payload)
-#	print(r.text)
-#	print(r.text[0])
+
 	result = json.loads(r.text)
-#	print(type(result))
-#	return result[0][0]
-	# print(result[0])
 	issue_id = result[0]["id"]
 	issue_number = result[0]["number"]
 
 	print(issue_id,issue_number)
 	return issue_id, issue_number
 
-
-
-
 get_github_issue()
+
