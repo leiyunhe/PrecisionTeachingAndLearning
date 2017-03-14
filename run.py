@@ -12,7 +12,7 @@ def index():
 			# pose_question = ask_question_issue("UserName")
 			s = "your leanring:"
 			return render_template('index.html', result = s)
-		elif r
+		
 		else:
 			return render_template('index.html')
 

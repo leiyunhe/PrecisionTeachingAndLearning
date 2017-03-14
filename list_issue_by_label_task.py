@@ -13,8 +13,45 @@ STATE = 'all'
 
 TIME = '2017-01-01T00:00:00Z'
 
+
+
+def get_stu_index():
+	'''通过第一个issue，下载py103的学员索引'''
+	url = 'https://api.github.com/repos/%s/%s/issues/1' % (REPO_OWNER, REPO_NAME)
+	s = requests.session()
+	s.auth = (USERNAME,PASSWORD)
+	r = s.get(url)
+	result = json.loads(r.text)
+
+	names = result["body"].split('|')
+	ls = [name.strip() for name in names]
+
+	VALUE = [('1','30'),('1','47'),('1','26'),('1','25')]
+	AREA = ['BEIJING','CHANG','ZHU','OTHER']
+	stu_list = {}
+	i = 0
+	j = len(ls)-1
+	t = 0
+	for (start,end) in VALUE:
+	    m = ls.index(start, i, j)
+	    n = ls.index(end, i, j)
+	    
+	    i = n + 6
+	    stu_list[AREA[t]] = ls[m:i]
+	    t = t + 1
+
+	github_user = [] #github username of the students
+	for area in AREA:
+	    length = len(stu_list[area])
+	    for i in range(1,length,7):
+	        github_user.append(stu_list[area][i])
+	return github_user # return list named github_user
+	# print(github_user)
+	# len(stu_list['BEIJING'])
+	# print(stu_list['CHANG'])
+
 payload1 = {'state':STATE,
-			'since':TIME} 
+			'since':TIME}	 
 def list_task_issue_number():
 
 	url = 'https://api.github.com/repos/%s/%s/issues' % (REPO_OWNER, REPO_NAME)
@@ -22,6 +59,8 @@ def list_task_issue_number():
 	s = requests.session()
 	s.auth = (USERNAME,PASSWORD)
 	r = s.get(url,params = payload1)
+	print(r.headers)
+	r.headers["link"]
 	result = json.loads(r.text)
 #	print(result)
 	ls = []
@@ -30,8 +69,8 @@ def list_task_issue_number():
 		ls.append(m)
 	return ls
 
-# r = list_task_issue_number()
-# print(len(r))
+r = list_task_issue_number()
+print(len(r))
 
 # ISSUE_NUMBER = '264'
 payload2 = {'labels': LABEL,
@@ -80,7 +119,7 @@ def get_issue_comments_by_chap():
 	for x in result:
 		# m = [x["url"],x["number"]]
 		m = x["title"]
-		if m in CHAP_NUMBER：
+		if m in CHAP_NUMBER:
 			dic["user"]["login"]
 		ls.append(m)
 	return ls
