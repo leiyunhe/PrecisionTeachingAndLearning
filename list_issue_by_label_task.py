@@ -54,23 +54,64 @@ payload1 = {'state':STATE,
 			'since':TIME}	 
 def list_task_issue_number():
 
-	url = 'https://api.github.com/repos/%s/%s/issues' % (REPO_OWNER, REPO_NAME)
+	# url = 'https://api.github.com/repos/%s/%s/issues' % (REPO_OWNER, REPO_NAME)
 	#url = 'https://api.github.com/orgs/%s/issues' % (ORG_NAME)
+# 	s = requests.session()
+# 	s.auth = (USERNAME,PASSWORD)
+# 	r = s.get(url,params = payload1)
+# 	# print(r.headers)
+# 	# r.headers["link"]
+
+# # 	result = json.loads(r.text)
+# # #	print(result)
+# 	# ls = []
+# # 	for x in result:
+# # 		m = [x["url"],x["number"]]
+# # 		ls.append(m)
+
+# 	n = r.headers["Link"].split()
+# 	print(n)
+# 	ls = []
+# 	while('rel = "next"' in n):
+# 		# s = requests.session()
+# 		# s.auth = (USERNAME,PASSWORD)
+# 		# n = s.get(url, params = payload1)
+# 		result = json.loads(r.text)
+
+# 		for x in result:
+# 			m = [x["url"],x["number"]]
+# 			ls.append(m)
+
+# 		start = n.index("<") + 1
+# 		end = n.index(">")
+# 		url = n[start:end]
+
+	url = 'https://api.github.com/repos/%s/%s/issues' % (REPO_OWNER, REPO_NAME)
 	s = requests.session()
 	s.auth = (USERNAME,PASSWORD)
 	r = s.get(url,params = payload1)
-	print(r.headers)
-	r.headers["link"]
 	result = json.loads(r.text)
-#	print(result)
 	ls = []
 	for x in result:
-		m = [x["url"],x["number"]]
+		m = x["number"]
 		ls.append(m)
+	n = r.headers["Link"].split()
+	while('rel = "next"' in n):
+		start = n.index("<") + 1
+		end = n.index(">")
+		url = n[start:end]
+		r = s.get(url,params=payload1)
+		print(r.headers)
+		result = json.loads(r.text)
+		for x in result:
+			m = x["numver"]
+			ls.append(m)
+		n = r.headers["Link"].split()
+
 	return ls
 
 r = list_task_issue_number()
-print(len(r))
+print(r)
 
 # ISSUE_NUMBER = '264'
 payload2 = {'labels': LABEL,
