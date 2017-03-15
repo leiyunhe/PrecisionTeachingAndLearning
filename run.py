@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template
 #from RealtimeQuery import query_realtime, documentation, log, log_append
+# from get_submit_time import
+import get_submit_time
 
 app = Flask(__name__)
 
@@ -7,10 +9,17 @@ app = Flask(__name__)
 def index():
 	if request.method == 'POST':
 		r = request.form['UserName']
-		pose_question = ask_question_issue(r)
-		if r:
-			# pose_question = ask_question_issue("UserName")
-			s = "your leanring:"
+		if r in get_stu_index():
+			#pages = traverse_pages()
+			issues = get_all_issues()
+			ISSUE_NUMBER
+			submit_task_issue(ISSUE_NUMBER)
+			area = 
+			issue = 
+			get_issue_number(area,issue)
+			get_issue_comments_by_chap()
+			s = issue_comment_time
+
 			return render_template('index.html', result = s)
 		
 		else:
