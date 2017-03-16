@@ -1,4 +1,3 @@
-
 import json
 import requests
 
@@ -72,6 +71,9 @@ def submit_task_issue(ISSUE_NUMBER):
 		m = [x["user"]["login"],x["created_at"]]		
 		ls.append(m)
 	return ls
+	print(ls)
+
+sumbmit_task_issue('264')
 
 payload3 = {'state':STATE,
 			'since':TIME} 
@@ -124,7 +126,8 @@ def get_all_issues():
 
 def get_issue_number(area, issue):
 	'''	如果title中包含有chap7,那么就把这个值赋给chap7_time'''
-    issue_number = {'ch1':None, 'ch2': None, 'ch3': None, 'ch4': None, 'ch5': None, 'ch6': None, 'ch7': None}
+    issue_number = {'ch1': None, 'ch2': None, 'ch3': None, 'ch4': None, 'ch5': None, 'ch6': None, 'ch7': None }
+
     for chapter in issue_number.keys():
         if area in issue[0] and chapter in issue[0]:
             issue_number[chapter] = issue[1]
