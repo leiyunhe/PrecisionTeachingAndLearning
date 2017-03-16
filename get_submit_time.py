@@ -53,6 +53,7 @@ payload1 = {'state':STATE,
 # ISSUE_NUMBER = '264'
 payload2 = {'labels': LABEL,
 			'state': STATE}
+
 def submit_task_issue(ISSUE_NUMBER):
 	'''
 	List comments on an issue
@@ -64,34 +65,36 @@ def submit_task_issue(ISSUE_NUMBER):
 	s.auth = (USERNAME,PASSWORD)
 	r = s.get(url,params = payload2)
 	result = json.loads(r.text)
+	# print(result)
 	ls = []
 	for x in result:
+		# print(x)
 		# m = [x["url"],x["created_at"],x["user"]]
-		# m = [x["url"],x["created_at"],x["user"]["login"]]
-		m = [x["user"]["login"],x["created_at"]]		
+		m = [x["url"],x["created_at"],x["user"]["login"]]
+		# m = (x["user"]["login"],x["created_at"])		
 		ls.append(m)
 	return ls
 	print(ls)
 
-sumbmit_task_issue('264')
+# sumbmit_task_issue('264')
 
-payload3 = {'state':STATE,
-			'since':TIME} 
-def get_issue_comments_by_chap():
+# payload3 = {'state':STATE,
+# 			'since':TIME} 
+# def get_issue_comments_by_chap():
 
-	url = 'https://api.github.com/repos/%s/%s/issues' % (REPO_OWNER, REPO_NAME)
-	s = requests.session()
-	s.auth = (USERNAME,PASSWORD)
-	r = s.get(url,params = payload3)
-	result = json.loads(r.text)
-	ls = []
-	for x in result:
-		# m = [x["url"],x["number"]]
-		m = x["title"]
-		if m in CHAP_NUMBER:
-			dic["user"]["login"]
-		ls.append(m)
-	return ls
+# 	url = 'https://api.github.com/repos/%s/%s/issues' % (REPO_OWNER, REPO_NAME)
+# 	s = requests.session()
+# 	s.auth = (USERNAME,PASSWORD)
+# 	r = s.get(url,params = payload3)
+# 	result = json.loads(r.text)
+# 	ls = []
+# 	for x in result:
+# 		# m = [x["url"],x["number"]]
+# 		m = x["title"]
+# 		if m in CHAP_NUMBER:
+# 			dic["user"]["login"]
+# 		ls.append(m)
+# 	return ls
 
 def traverse_pages():
     '''travesing all pages, return a list including all pages'''
@@ -124,27 +127,31 @@ def get_all_issues():
             issue_ls.append(m)
     return issue_ls
 
-def get_issue_number(area, issue):
+def get_issue_number(area, issues):
 	'''	如果title中包含有chap7,那么就把这个值赋给chap7_time'''
-    issue_number = {'ch1': None, 'ch2': None, 'ch3': None, 'ch4': None, 'ch5': None, 'ch6': None, 'ch7': None }
+	# print(area,issues)
+	issue_number = {'ch1': None, 'ch2': None, 'ch3': None, 'ch4': None, 'ch5': None, 'ch6': None, 'ch7': None}
+	for issue in issues:
+		for chapter in issue_number.keys():
+			# print(chapter)
+			if area in issue[0] and chapter in issue[0]:
+				# print(area,chapter)
+				issue_number[chapter] = issue[1]
+				# print(issue_number[chapter])
+	return issue_number
 
-    for chapter in issue_number.keys():
-        if area in issue[0] and chapter in issue[0]:
-            issue_number[chapter] = issue[1]
-    return issue_number
-
-def submit_task_issue():
-	'''返回用户ISSUE_NUMBER单元作业的提交时间、number,用于排序
-	List comments on an issue
-	DOC  https://developer.github.com/v3/issues/comments/
-	'''
-	url = 'https://api.github.com/repos/%s/%s/issues/%s/comments' % (REPO_OWNER, REPO_NAME,ISSUE_NUMBER)
-	s = requests.session()
-	s.auth = (USERNAME,PASSWORD)
-	r = s.get(url,params = payload)
-	result = json.loads(r.text)
-	ls = []
-	for x in result:
-		m = [x["url"],x["created_at"]]
-		ls.append(m)
-	return ls
+# def submit_task_issue():
+# 	'''返回用户ISSUE_NUMBER单元作业的提交时间、number,用于排序
+# 	List comments on an issue
+# 	DOC  https://developer.github.com/v3/issues/comments/
+# 	'''
+# 	url = 'https://api.github.com/repos/%s/%s/issues/%s/comments' % (REPO_OWNER, REPO_NAME,ISSUE_NUMBER)
+# 	s = requests.session()
+# 	s.auth = (USERNAME,PASSWORD)
+# 	r = s.get(url,params = payload)
+# 	result = json.loads(r.text)
+# 	ls = []
+# 	for x in result:
+# 		m = [x["url"],x["created_at"]]
+# 		ls.append(m)
+# 	return ls

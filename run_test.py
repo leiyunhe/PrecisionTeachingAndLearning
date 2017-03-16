@@ -4,6 +4,7 @@ import requests
 from flask import Flask,request, render_template,g
 import sqlite3
 import datetime
+import get_submit_time
 
 app = Flask(__name__)
 
@@ -53,36 +54,41 @@ def close_connection(exception):
 def insert_into_db():
 	c = get_db().cursor()
 
-	ls_issues = get_all_issue()
+	ls_issues = get_submit_time.get_all_issues()
 	for area in AREA:
-		for issue in ls_issues:
-			ls_area_issue_numbers = get_issue_number(area, issue)
-			for  ch_num  in ls_area_issue_numbers.keys():
-				issue_num = ls_area_issue_numbers[ch_num]
-				comments =  submit_task_issue(issue_num)
+		#print(area)
+		# for issue in ls_issues:
+		# 	print(issue)
+		ls_area_issue_numbers = get_submit_time.get_issue_number(area, ls_issues)
+			# print(ls_area_issue_numbers)
+		for  ch_num  in ls_area_issue_numbers.keys():
+			issue_num = ls_area_issue_numbers[ch_num]
+			print(issue_num)
+			# print('issue_num: %s, issue_num: %r' % (type(issue_num), issue_num))
+			comments =  get_submit_time.submit_task_issue(issue_num)
 
-				for comment in comments：
-					username = comment[0]
-					created_at_time = comment[1]
-					chap1_time = chap2_time = chap3_time = chap4_time = chap5_time = chap6_time = chap7_time = 0
-					if 'ch1' in ch_num:						
-						chap1_time = created_at_time
-					elif 'ch2' in ch_num:
-						chap2_time = created_at_time
-					elif 'ch3' in ch_num:
-						chap3_time = created_at_time
-					elif 'ch4' in ch_num:
-						chap4_time = created_at_time
-					elif 'ch5' in ch_num:
-						chap5_time = created_at_time
-					elif 'ch6' in ch_num:
-						chap6_time = created_at_time
-					else:
+			for comment in comments:
+				username = comment[0]
+				created_at_time = comment[1]
+				chap1_time = chap2_time = chap3_time = chap4_time = chap5_time = chap6_time = chap7_time = 0
+				if 'ch1' in ch_num:						
+					chap1_time = created_at_time
+				elif 'ch2' in ch_num:
+					chap2_time = created_at_time
+				elif 'ch3' in ch_num:
+					chap3_time = created_at_time
+				elif 'ch4' in ch_num:
+					chap4_time = created_at_time
+				elif 'ch5' in ch_num:
+					chap5_time = created_at_time
+				elif 'ch6' in ch_num:
+					chap6_time = created_at_time
+				else:
 						# update_col = 'chap7_time'
-						chap7_time = created_at_time			
+					chap7_time = created_at_time			
 
 					# UPDATE submit_issue SET update_col = created_at_time WHERE name = username
-				c.execute("INSERT INTO submit_issue VALUES (?,?,?,?,?,?,?,?)",(username,chap1_time,chap2_time,chap3_time,chap4_time,chap5_time,chap6_time,chap7_time))
+			c.execute("INSERT INTO submit_issue VALUES (?,?,?,?,?,?,?,?)",(username,chap1_time,chap2_time,chap3_time,chap4_time,chap5_time,chap6_time,chap7_time))
 	get_db().commit()
 
 
@@ -111,6 +117,7 @@ def index():
 
 if __name__ == '__main__':
 	List_history = []
-	insert_into_db()
+	
 	with app.app_context():
+		insert_into_db()
 		app.run(debug=True)
