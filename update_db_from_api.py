@@ -181,28 +181,28 @@ def insert_into_db():
 			# except:
 				
 
-			for comment in comments:
-				username = comment[0]
-				created_at_time = comment[1]
-				chap1_time = chap2_time = chap3_time = chap4_time = chap5_time = chap6_time = chap7_time = 0
-				if 'ch1' in ch_num:						
-					chap1_time = created_at_time
-					
-				elif 'ch2' in ch_num:
-					chap2_time = created_at_time
-				elif 'ch3' in ch_num:
-					chap3_time = created_at_time
-				elif 'ch4' in ch_num:
-					chap4_time = created_at_time
-				elif 'ch5' in ch_num:
-					chap5_time = created_at_time
-				elif 'ch6' in ch_num:
-					chap6_time = created_at_time
-				else:
-						# update_col = 'chap7_time'
-					chap7_time = created_at_time			
+				for comment in comments:
+					username = comment[0]
+					created_at_time = comment[1]
+					# chap1_time = chap2_time = chap3_time = chap4_time = chap5_time = chap6_time = chap7_time = 0
+					if 'ch1' in ch_num:						
+						# chap1_time = created_at_time
+						UPDATE submit_issue SET chap1_time = created_at_time WHERE github_user_name = username
+					elif 'ch2' in ch_num:
+						UPDATE submit_issue SET chap2_time = created_at_time WHERE github_user_name = username
+					elif 'ch3' in ch_num:
+						UPDATE submit_issue SET chap3_time = created_at_time WHERE github_user_name = username
+					elif 'ch4' in ch_num:
+						UPDATE submit_issue SET chap4_time = created_at_time WHERE github_user_name = username
+					elif 'ch5' in ch_num:
+						UPDATE submit_issue SET chap5_time = created_at_time WHERE github_user_name = username
+					elif 'ch6' in ch_num:
+						UPDATE submit_issue SET chap6_time = created_at_time WHERE github_user_name = username
+					else:
+							# update_col = 'chap7_time'
+						UPDATE submit_issue SET chap7_time = created_at_time WHERE github_user_name = username			
 
-				UPDATE submit_issue SET chap1_time=chap1_time chap2_time=chap2_time chap3_time=chap3_time chap4_time=chap4_time chap5_time=chap5_time chap6_time=chap6_time chap7_time=chap7_time WHERE github_user_name = username
+				# UPDATE submit_issue SET chap1_time=chap1_time chap2_time=chap2_time chap3_time=chap3_time chap4_time=chap4_time chap5_time=chap5_time chap6_time=chap6_time chap7_time=chap7_time WHERE github_user_name = username
 			# conn.execute("INSERT INTO submit_issue VALUES (?,?,?,?,?,?,?,?)",(username,chap1_time,chap2_time,chap3_time,chap4_time,chap5_time,chap6_time,chap7_time))
 	# get_db().commit()
 
