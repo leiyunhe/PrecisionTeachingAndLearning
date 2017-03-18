@@ -16,7 +16,7 @@ REPO_OWNER = 'AIMinder'
 REPO_NAME = 'Py103'
 payload = {
 			'since':TIME} # 每个函数传递的payload不同，因此需要修改，重新写成几个不同的payload,存在字典中，以备调用。
-DATABASE = './databasetest.db'
+DATABASE = './database.db'
 PAGE = 'test.html'
 
 AREA = {'长三角大区','珠三角大区','北京大区','其他地区'}

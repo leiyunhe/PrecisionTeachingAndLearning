@@ -1,5 +1,7 @@
 import json
 import requests
+from flask import g
+import sqlite3
 
 USERNAME = 'leiyunhe'
 PASSWORD = 'he18801730209'
@@ -11,6 +13,9 @@ LABEL = 'task'
 STATE = 'all'
 
 TIME = '2017-01-01T00:00:00Z'
+AREA = {'长三角大区','珠三角大区','北京大区','其他地区'}
+DATABASE = './database.db'
+PAGE = 'index.html'
 
 def get_stu_index():
 	'''通过第一个issue，下载py103的学员索引'''
@@ -43,7 +48,9 @@ def get_stu_index():
 	    for i in range(1,length,7):
 	        github_user.append(stu_list[area][i])
 	return github_user # return list named github_user
-
+	# print(github_user)
+	# len(stu_list['BEIJING'])
+	# print(stu_list['CHANG'])
 
 payload1 = {'state':STATE,
 			'since':TIME}	 
@@ -68,11 +75,13 @@ def submit_task_issue(ISSUE_NUMBER):
 	for x in result:
 		# print(x)
 		# m = [x["url"],x["created_at"],x["user"]]
-		m = [x["url"],x["created_at"],x["user"]["login"]]
-		# m = (x["user"]["login"],x["created_at"])		
+		# m = [x["url"],x["created_at"],x["user"]["login"]]
+		m = [x["user"]["login"],x["created_at"]]		
 		ls.append(m)
 	return ls
 	print(ls)
+
+# sumbmit_task_issue('264')
 
 
 def traverse_pages():
@@ -120,3 +129,72 @@ def get_issue_number(area, issues):
 	return issue_number
 
 
+
+def insert_into_db():
+	'''update db from API'''
+	# c = get_db().cursor()
+
+	ls_issues = get_all_issues()
+	for area in AREA:
+		#print(area)
+		# for issue in ls_issues:
+		# 	print(issue)
+		ls_area_issue_numbers = get_issue_number(area, ls_issues)
+			# print(ls_area_issue_numbers)
+		for  ch_num  in ls_area_issue_numbers.keys():
+		# for  ch_num  in ['ch1']:
+			issue_num = ls_area_issue_numbers[ch_num]
+			print(issue_num)
+			# try:
+
+			# print('issue_num: %s, issue_num: %r' % (type(issue_num), issue_num))
+			if issue_num:
+				comments =  submit_task_issue(issue_num)
+			# 	break
+			# except:
+				for comment in comments:
+					# print(comment)
+					# username = (comment[0],)
+					# created_at_time = (comment[1],)
+					# chap1_time = chap2_time = chap3_time = chap4_time = chap5_time = chap6_time = chap7_time = 0
+					if 'ch1' in ch_num:
+						print(ch_num)						
+						# chap1_time = created_at_time
+						c.execute("UPDATE submit_issue SET chap1_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+
+					elif 'ch2' in ch_num:
+						c.execute("UPDATE submit_issue SET chap2_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+					elif 'ch3' in ch_num:
+						c.execute("UPDATE submit_issue SET chap3_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+					elif 'ch4' in ch_num:
+						c.execute("UPDATE submit_issue SET chap4_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+					elif 'ch5' in ch_num:
+						c.execute("UPDATE submit_issue SET chap5_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+					elif 'ch6' in ch_num:
+						c.execute("UPDATE submit_issue SET chap6_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+					else:
+							# update_col = 'chap7_time'
+						c.execute("UPDATE submit_issue SET chap7_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+					conn.commit()		
+
+				# UPDATE submit_issue SET chap1_time=chap1_time chap2_time=chap2_time chap3_time=chap3_time chap4_time=chap4_time chap5_time=chap5_time chap6_time=chap6_time chap7_time=chap7_time WHERE github_user_name = username
+			# conn.execute("INSERT INTO submit_issue VALUES (?,?,?,?,?,?,?,?)",(username,chap1_time,chap2_time,chap3_time,chap4_time,chap5_time,chap6_time,chap7_time))
+	# get_db().commit()
+
+
+
+DATABASE = './database.db'
+conn = sqlite3.connect(DATABASE)
+c = conn.cursor()
+for stu in get_stu_index():
+	c.execute('INSERT INTO submit_issue (github_user_name) VALUES (?)',(stu,))
+conn.commit()
+insert_into_db()
+
+for row in c.execute('SELECT * FROM submit_issue ORDER by github_user_name'):
+	print(row)
+
+
+# print(c.fetchall())
+conn.commit()
+conn.close()
