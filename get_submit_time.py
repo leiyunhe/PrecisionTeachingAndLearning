@@ -2,7 +2,7 @@ import json
 import requests
 
 USERNAME = 'leiyunhe'
-PASSWORD = 'Craney20150421'
+PASSWORD = 'he18801730209'
 
 REPO_OWNER = 'AIMinder'
 REPO_NAME = 'Py103'

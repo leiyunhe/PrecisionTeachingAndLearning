@@ -9,7 +9,7 @@ import get_submit_time
 app = Flask(__name__)
 
 USERNAME = 'leiyunhe'
-PASSWORD = 'Craney20150421'
+PASSWORD = 'he18801730209'
 CREATOR = 'leiyunhe'
 TIME = '2017-01-01T00:00:00Z'
 REPO_OWNER = 'AIMinder'
@@ -63,14 +63,14 @@ def insert_into_db():
 			# print(ls_area_issue_numbers)
 		for  ch_num  in ls_area_issue_numbers.keys():
 			issue_num = ls_area_issue_numbers[ch_num]
-			print(issue_num)
+			# print(issue_num)
 			# print('issue_num: %s, issue_num: %r' % (type(issue_num), issue_num))
 			comments =  get_submit_time.submit_task_issue(issue_num)
 
 			for comment in comments:
 				username = comment[0]
 				created_at_time = comment[1]
-				chap1_time = chap2_time = chap3_time = chap4_time = chap5_time = chap6_time = chap7_time = 0
+				# chap1_time = chap2_time = chap3_time = chap4_time = chap5_time = chap6_time = chap7_time = 0
 				if 'ch1' in ch_num:						
 					chap1_time = created_at_time
 				elif 'ch2' in ch_num:

@@ -4,7 +4,7 @@ from flask import g
 import sqlite3
 
 USERNAME = 'leiyunhe'
-PASSWORD = 'Craney20150421'
+PASSWORD = 'he18801730209'
 
 REPO_OWNER = 'AIMinder'
 REPO_NAME = 'Py103'
@@ -129,34 +129,6 @@ def get_issue_number(area, issues):
 	return issue_number
 
 
-# def get_db():
-#     db = getattr(g, '_database', None)
-#     if db is None:
-#         db = g._database = sqlite3.connect(DATABASE)
-#     db.row_factory = sqlite3.Row
-#     return db
-
-# def query_db(query, args=(), one=False):
-#     cur = get_db().execute(query, args)
-#     rv = cur.fetchall()
-#     cur.close()
-#     return (rv[0] if rv else None) if one else rv
-
-# def query_from_db(name):
-# 	'''通过用户github名称，从数据库查询用户每个单元作业的提交时间'''
-# 	r = query_db('select * from submit_issue where github_user_name = ?',
-# 	                [name], one=True)
-# 	if r is None:
-# 	    print('No such user')
-# 	else:
-# 	    print(r)
-# 	return r
-
-# @app.teardown_appcontext
-# def close_connection(exception):
-#     db = getattr(g, '_database', None)
-#     if db is not None:
-#         db.close()
 
 def insert_into_db():
 	'''update db from API'''
@@ -170,6 +142,7 @@ def insert_into_db():
 		ls_area_issue_numbers = get_issue_number(area, ls_issues)
 			# print(ls_area_issue_numbers)
 		for  ch_num  in ls_area_issue_numbers.keys():
+		# for  ch_num  in ['ch1']:
 			issue_num = ls_area_issue_numbers[ch_num]
 			print(issue_num)
 			# try:
@@ -179,28 +152,30 @@ def insert_into_db():
 				comments =  submit_task_issue(issue_num)
 			# 	break
 			# except:
-				
-
 				for comment in comments:
-					username = comment[0]
-					created_at_time = comment[1]
+					# print(comment)
+					# username = (comment[0],)
+					# created_at_time = (comment[1],)
 					# chap1_time = chap2_time = chap3_time = chap4_time = chap5_time = chap6_time = chap7_time = 0
-					if 'ch1' in ch_num:						
+					if 'ch1' in ch_num:
+						print(ch_num)						
 						# chap1_time = created_at_time
-						UPDATE submit_issue SET chap1_time = created_at_time WHERE github_user_name = username
+						c.execute("UPDATE submit_issue SET chap1_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+
 					elif 'ch2' in ch_num:
-						UPDATE submit_issue SET chap2_time = created_at_time WHERE github_user_name = username
+						c.execute("UPDATE submit_issue SET chap2_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
 					elif 'ch3' in ch_num:
-						UPDATE submit_issue SET chap3_time = created_at_time WHERE github_user_name = username
+						c.execute("UPDATE submit_issue SET chap3_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
 					elif 'ch4' in ch_num:
-						UPDATE submit_issue SET chap4_time = created_at_time WHERE github_user_name = username
+						c.execute("UPDATE submit_issue SET chap4_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
 					elif 'ch5' in ch_num:
-						UPDATE submit_issue SET chap5_time = created_at_time WHERE github_user_name = username
+						c.execute("UPDATE submit_issue SET chap5_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
 					elif 'ch6' in ch_num:
-						UPDATE submit_issue SET chap6_time = created_at_time WHERE github_user_name = username
+						c.execute("UPDATE submit_issue SET chap6_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
 					else:
 							# update_col = 'chap7_time'
-						UPDATE submit_issue SET chap7_time = created_at_time WHERE github_user_name = username			
+						c.execute("UPDATE submit_issue SET chap7_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+					conn.commit()		
 
 				# UPDATE submit_issue SET chap1_time=chap1_time chap2_time=chap2_time chap3_time=chap3_time chap4_time=chap4_time chap5_time=chap5_time chap6_time=chap6_time chap7_time=chap7_time WHERE github_user_name = username
 			# conn.execute("INSERT INTO submit_issue VALUES (?,?,?,?,?,?,?,?)",(username,chap1_time,chap2_time,chap3_time,chap4_time,chap5_time,chap6_time,chap7_time))
@@ -210,8 +185,6 @@ def insert_into_db():
 # if __name__ == "__main__":
 # 	insert_into_db()
 
-
-
 conn = sqlite3.connect('databasetest.db')
 print("Opened database successfully")
 
@@ -219,12 +192,16 @@ print("Opened database successfully")
 conn.execute('CREATE TABLE submit_issue (github_user_name TEXT, chap1_time TEXT, chap2_time TEXT, chap3_time TEXT, chap4_time TEXT, chap5_time TEXT, chap6_time TEXT,chap7_time TEXT)')
 print("Table created successfully")
 
-
+c = conn.cursor()
+for stu in get_stu_index():
+	c.execute('INSERT INTO submit_issue (github_user_name) VALUES (?)',(stu,))
+conn.commit()
 insert_into_db()
-for row in conn.execute('SELECT * FROM submit_issue ORDER by github_user_name'):
+
+for row in c.execute('SELECT * FROM submit_issue ORDER by github_user_name'):
 	print(row)
 
-cur = conn.cursor()
-print(cur.fetchall())
 
+# print(c.fetchall())
+conn.commit()
 conn.close()
