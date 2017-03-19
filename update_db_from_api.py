@@ -158,7 +158,7 @@ def insert_into_db():
 					# created_at_time = (comment[1],)
 					# chap1_time = chap2_time = chap3_time = chap4_time = chap5_time = chap6_time = chap7_time = 0
 					if 'ch1' in ch_num:
-						print(ch_num)						
+						# print(ch_num)						
 						# chap1_time = created_at_time
 						c.execute("UPDATE submit_issue SET chap1_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
 

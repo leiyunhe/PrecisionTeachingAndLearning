@@ -23,7 +23,7 @@
     color:black;
     clear:both;
     text-align:center;
-    /*padding:100px;	 	 */
+    padding:200px;	 	 
 }
 #footer {
     background-color:black;
@@ -53,33 +53,57 @@ Github UserName:<input type="text" name="UserName">
 <div id="button">
 
 <form action="/" method = "get">
-<input type="submit" name="history" value="history">
-<input type="submit" name="help" value="help" >
-<input type="submit" name="Py103" value="Py103" >
+<input type="submit" name="button" value="history">
+<input type="submit" name="button" value="help" >
+<input type="submit" name="button" value="Py103" >
 </form>
 </div>
 
 <div id="stage">
-<table align = "center">
-<tr>
-<td><hr/>
-<p>用户名<hr/></p>
-<p>ch1<hr/></p>
-<p>ch2<hr/></p>
-<p>ch3<hr/></p>
-<p>ch4<hr/></p>
-<p>ch5<hr/></p>
-<p>ch6<hr/></p>
-<p>ch7<hr/></p>
 
-</td>
-<td><hr/>
-{% for k in result %}
-<p>{{k}}<hr/></p>
-{% endfor %}
-</td>
-</tr>
-</table>
+{% if result %}
+
+    <table align = "center">
+    <tr>
+        <td>
+        <hr/>
+        <p>用户名<hr/></p>
+        <p>ch1<hr/></p>
+        <p>ch2<hr/></p>
+        <p>ch3<hr/></p>
+        <p>ch4<hr/></p>
+        <p>ch5<hr/></p>
+        <p>ch6<hr/></p>
+        <p>ch7<hr/></p>
+        </td>
+
+        <td>
+        <hr/>
+        {% for k in result %}
+        <p>{{k}}<hr/></p>
+        {% endfor %}
+        </td>
+    </tr>
+    </table>
+
+{% elif help %}
+    {% for k in help %}
+    {{k}}
+    {% endfor %}
+{% elif history %}
+    {% for k in history %}
+    {{k}}
+    {% endfor %}
+{% elif py103 %}
+    {% for k in py103 %}
+    {{k}}
+    {% endfor %}
+{% else %}
+    {% for k in help %}
+    {{k}}
+    {% endfor %}
+{% endif %}
+
 
 </div>
 
