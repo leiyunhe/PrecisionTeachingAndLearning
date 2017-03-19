@@ -13,7 +13,7 @@ LABEL = 'task'
 STATE = 'all'
 
 TIME = '2017-01-01T00:00:00Z'
-AREA = {'长三角大区','珠三角大区','北京大区','其他地区'}
+AREA = {'长三角','珠三角','北京','其他'}
 DATABASE = './database.db'
 PAGE = 'index.html'
 
@@ -46,16 +46,12 @@ def get_stu_index():
 	for area in AREA:
 	    length = len(stu_list[area])
 	    for i in range(1,length,7):
-	        github_user.append(stu_list[area][i])
+	        github_user.append((stu_list[area][i],area))
 	return github_user # return list named github_user
-	# print(github_user)
-	# len(stu_list['BEIJING'])
-	# print(stu_list['CHANG'])
 
 payload1 = {'state':STATE,
 			'since':TIME}	 
 
-# ISSUE_NUMBER = '264'
 payload2 = {'labels': LABEL,
 			'state': STATE}
 
@@ -73,10 +69,7 @@ def submit_task_issue(ISSUE_NUMBER):
 	# print(result)
 	ls = []
 	for x in result:
-		# print(x)
-		# m = [x["url"],x["created_at"],x["user"]]
-		# m = [x["url"],x["created_at"],x["user"]["login"]]
-		m = [x["user"]["login"],x["created_at"]]		
+		m = [x["user"]["login"],x["created_at"],x["body"]]		
 		ls.append(m)
 	return ls
 	print(ls)
@@ -129,72 +122,55 @@ def get_issue_number(area, issues):
 	return issue_number
 
 
-
 def insert_into_db():
 	'''update db from API'''
-	# c = get_db().cursor()
 
 	ls_issues = get_all_issues()
 	for area in AREA:
-		#print(area)
-		# for issue in ls_issues:
-		# 	print(issue)
 		ls_area_issue_numbers = get_issue_number(area, ls_issues)
-			# print(ls_area_issue_numbers)
 		for  ch_num  in ls_area_issue_numbers.keys():
-		# for  ch_num  in ['ch1']:
 			issue_num = ls_area_issue_numbers[ch_num]
-			# print(issue_num)
-			# try:
-
-			# print('issue_num: %s, issue_num: %r' % (type(issue_num), issue_num))
+			print(issue_num)
 			if issue_num:
 				comments =  submit_task_issue(issue_num)
-			# 	break
-			# except:
-				for comment in comments:
-					# print(comment)
-					# username = (comment[0],)
-					# created_at_time = (comment[1],)
-					# chap1_time = chap2_time = chap3_time = chap4_time = chap5_time = chap6_time = chap7_time = 0
-					if 'ch1' in ch_num:
-						# print(ch_num)						
-						# chap1_time = created_at_time
-						c.execute("UPDATE submit_issue SET chap1_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
 
-					elif 'ch2' in ch_num:
-						c.execute("UPDATE submit_issue SET chap2_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
-					elif 'ch3' in ch_num:
-						c.execute("UPDATE submit_issue SET chap3_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
-					elif 'ch4' in ch_num:
-						c.execute("UPDATE submit_issue SET chap4_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
-					elif 'ch5' in ch_num:
-						c.execute("UPDATE submit_issue SET chap5_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
-					elif 'ch6' in ch_num:
-						c.execute("UPDATE submit_issue SET chap6_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+				for comment in comments:
+					if 'https://github.com/' in comment[2]:
+						if 'ch1' in ch_num:
+							c.execute("UPDATE submit_issue SET chap1_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+						elif 'ch2' in ch_num:
+							c.execute("UPDATE submit_issue SET chap2_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+						elif 'ch3' in ch_num:
+							c.execute("UPDATE submit_issue SET chap3_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+						elif 'ch4' in ch_num:
+							c.execute("UPDATE submit_issue SET chap4_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+						elif 'ch5' in ch_num:
+							c.execute("UPDATE submit_issue SET chap5_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+						elif 'ch6' in ch_num:
+							c.execute("UPDATE submit_issue SET chap6_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+						elif 'ch7' in ch_num:
+							c.execute("UPDATE submit_issue SET chap7_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+						else:
+							pass
 					else:
-							# update_col = 'chap7_time'
-						c.execute("UPDATE submit_issue SET chap7_time = ? WHERE github_user_name = ?", (comment[1],comment[0]))
+						pass
 					conn.commit()		
 
-				# UPDATE submit_issue SET chap1_time=chap1_time chap2_time=chap2_time chap3_time=chap3_time chap4_time=chap4_time chap5_time=chap5_time chap6_time=chap6_time chap7_time=chap7_time WHERE github_user_name = username
-			# conn.execute("INSERT INTO submit_issue VALUES (?,?,?,?,?,?,?,?)",(username,chap1_time,chap2_time,chap3_time,chap4_time,chap5_time,chap6_time,chap7_time))
-	# get_db().commit()
 
-
-
-DATABASE = './database.db'
+DATABASE = './database2.db'
 conn = sqlite3.connect(DATABASE)
 c = conn.cursor()
+
+c.execute('CREATE TABLE submit_issue (github_user_name TEXT, area TEXT, chap1_time TEXT, chap2_time TEXT, chap3_time TEXT, chap4_time TEXT, chap5_time TEXT, chap6_time TEXT,chap7_time TEXT)')
+print("Table created successfully")
+
 for stu in get_stu_index():
-	c.execute('INSERT INTO submit_issue (github_user_name) VALUES (?)',(stu,))
+	c.execute('INSERT INTO submit_issue (github_user_name, area) VALUES (?,?)',(stu[0],stu[1]))
 conn.commit()
 insert_into_db()
 
 for row in c.execute('SELECT * FROM submit_issue ORDER by github_user_name'):
 	print(row)
 
-
-# print(c.fetchall())
 conn.commit()
 conn.close()

@@ -16,10 +16,10 @@ REPO_OWNER = 'AIMinder'
 REPO_NAME = 'Py103'
 payload = {
 			'since':TIME} # 每个函数传递的payload不同，因此需要修改，重新写成几个不同的payload,存在字典中，以备调用。
-DATABASE = './databasetest.db'
+DATABASE = './database2.db'
 PAGE = 'test.html'
 
-AREA = {'长三角大区','珠三角大区','北京大区','其他地区'}
+AREA = {'长三角','珠三角','北京','其他'}
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -50,10 +50,13 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+
 def fetch_db():
 	
 	for row in get_db().execute('SELECT * FROM submit_issue ORDER by github_user_name'):
 		print(row)
+	conn.commit()
+	conn.close()	
 
 
 @app.route('/', methods = ['POST', 'GET'])
@@ -64,7 +67,7 @@ def index():
 		if r and request.form['query'] == '查询':
 			s = query_from_db(r)
 			# print(s,type(s))
-			List_history.append(s)		
+			List_history.append(tuple(s))		
 			return render_template(PAGE, result = s)
 		else:
 			s = ['请AIMinder Py103学员输入GitHub用户名，进行查询']
