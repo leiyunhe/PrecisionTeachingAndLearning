@@ -2,20 +2,8 @@ import json
 import requests
 from flask import g
 import sqlite3
+from utils.const_value import REPO_OWNER, REPO_NAME, USERNAME,PASSWORD,AREA,payload,payload1,payload2,TIME,DATABASE,LABEL,STATE
 
-USERNAME = 'leiyunhe'
-PASSWORD = 'he18801730209'
-
-REPO_OWNER = 'AIMinder'
-REPO_NAME = 'Py103'
-
-LABEL = 'task'
-STATE = 'all'
-
-TIME = '2017-01-01T00:00:00Z'
-AREA = {'长三角','珠三角','北京','其他'}
-DATABASE = './database.db'
-PAGE = 'index.html'
 
 def get_stu_index():
 	'''通过第一个issue，下载py103的学员索引'''
@@ -29,7 +17,7 @@ def get_stu_index():
 	ls = [name.strip() for name in names]
 
 	VALUE = [('1','30'),('1','47'),('1','26'),('1','25')]
-	AREA = ['BEIJING','CHANG','ZHU','OTHER']
+	# AREA = ['BEIJING','CHANG','ZHU','OTHER']
 	stu_list = {}
 	i = 0
 	j = len(ls)-1
@@ -49,11 +37,7 @@ def get_stu_index():
 	        github_user.append((stu_list[area][i],area))
 	return github_user # return list named github_user
 
-payload1 = {'state':STATE,
-			'since':TIME}	 
 
-payload2 = {'labels': LABEL,
-			'state': STATE}
 
 def submit_task_issue(ISSUE_NUMBER):
 	'''
@@ -157,20 +141,20 @@ def insert_into_db():
 					conn.commit()		
 
 
-DATABASE = './database2.db'
-conn = sqlite3.connect(DATABASE)
-c = conn.cursor()
+if __name__ == '__main__':
+	conn = sqlite3.connect(DATABASE)
+	c = conn.cursor()
 
-c.execute('CREATE TABLE submit_issue (github_user_name TEXT, area TEXT, chap1_time TEXT, chap2_time TEXT, chap3_time TEXT, chap4_time TEXT, chap5_time TEXT, chap6_time TEXT,chap7_time TEXT)')
-print("Table created successfully")
+	c.execute('CREATE TABLE submit_issue (github_user_name TEXT, area TEXT, chap1_time TEXT, chap2_time TEXT, chap3_time TEXT, chap4_time TEXT, chap5_time TEXT, chap6_time TEXT,chap7_time TEXT)')
+	print("Table created successfully")
 
-for stu in get_stu_index():
-	c.execute('INSERT INTO submit_issue (github_user_name, area) VALUES (?,?)',(stu[0],stu[1]))
-conn.commit()
-insert_into_db()
+	for stu in get_stu_index():
+		c.execute('INSERT INTO submit_issue (github_user_name, area) VALUES (?,?)',(stu[0],stu[1]))
+	conn.commit()
+	insert_into_db()
 
-for row in c.execute('SELECT * FROM submit_issue ORDER by github_user_name'):
-	print(row)
+	for row in c.execute('SELECT * FROM submit_issue ORDER by github_user_name'):
+		print(row)
 
-conn.commit()
-conn.close()
+	conn.commit()
+	conn.close()

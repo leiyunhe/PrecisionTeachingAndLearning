@@ -4,22 +4,12 @@ import requests
 from flask import Flask,request, render_template,g
 import sqlite3
 import datetime
-import get_submit_time
+# import get_submit_time
+from utils.const_value import REPO_OWNER, REPO_NAME, USERNAME,PASSWORD,AREA,payload,payload1,payload2,TIME,DATABASE,LABEL,STATE,PAGE
 
 app = Flask(__name__)
 
-USERNAME = 'leiyunhe'
-PASSWORD = 'he18801730209'
-CREATOR = 'leiyunhe'
-TIME = '2017-01-01T00:00:00Z'
-REPO_OWNER = 'AIMinder'
-REPO_NAME = 'Py103'
-payload = {
-			'since':TIME} # 每个函数传递的payload不同，因此需要修改，重新写成几个不同的payload,存在字典中，以备调用。
-DATABASE = './database2.db'
-PAGE = 'test.html'
 
-AREA = {'长三角','珠三角','北京','其他'}
 
 def get_db():
     db = getattr(g, '_database', None)
