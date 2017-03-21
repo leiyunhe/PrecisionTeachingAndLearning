@@ -17,7 +17,6 @@ def get_stu_index():
 	ls = [name.strip() for name in names]
 
 	VALUE = [('1','30'),('1','47'),('1','26'),('1','25')]
-	# AREA = ['BEIJING','CHANG','ZHU','OTHER']
 	stu_list = {}
 	i = 0
 	j = len(ls)-1
@@ -35,8 +34,7 @@ def get_stu_index():
 	    length = len(stu_list[area])
 	    for i in range(1,length,7):
 	        github_user.append((stu_list[area][i],area))
-	return github_user # return list named github_user
-
+	return github_user
 
 
 def submit_task_issue(ISSUE_NUMBER):
@@ -50,7 +48,6 @@ def submit_task_issue(ISSUE_NUMBER):
 	s.auth = (USERNAME,PASSWORD)
 	r = s.get(url,params = payload2)
 	result = json.loads(r.text)
-	# print(result)
 	ls = []
 	for x in result:
 		m = [x["user"]["login"],x["created_at"],x["body"]]		
@@ -58,13 +55,9 @@ def submit_task_issue(ISSUE_NUMBER):
 	return ls
 	print(ls)
 
-# sumbmit_task_issue('264')
-
-
 def traverse_pages():
     '''travesing all pages, return a list including all pages'''
     url = 'https://api.github.com/repos/%s/%s/issues' % (REPO_OWNER, REPO_NAME)
-    #url = 'https://api.github.com/orgs/%s/issues' % (ORG_NAME)
     s = requests.session()
     s.auth = (USERNAME,PASSWORD)
     r = s.get(url,params = payload1)
@@ -94,21 +87,16 @@ def get_all_issues():
 
 def get_issue_number(area, issues):
 	'''	如果title中包含有chap7,那么就把这个值赋给chap7_time'''
-	# print(area,issues)
 	issue_number = {'ch1': None, 'ch2': None, 'ch3': None, 'ch4': None, 'ch5': None, 'ch6': None, 'ch7': None}
 	for issue in issues:
 		for chapter in issue_number.keys():
-			# print(chapter)
 			if area in issue[0] and chapter in issue[0]:
-				# print(area,chapter)
 				issue_number[chapter] = issue[1]
-				# print(issue_number[chapter])
 	return issue_number
 
 
 def insert_into_db():
 	'''update db from API'''
-
 	ls_issues = get_all_issues()
 	for area in AREA:
 		ls_area_issue_numbers = get_issue_number(area, ls_issues)

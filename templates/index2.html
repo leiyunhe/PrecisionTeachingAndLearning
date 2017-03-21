@@ -65,7 +65,7 @@ Github UserName:<input type="text" name="UserName">
 
     <table align = "center">
     <tr>
-        <td>
+        <th>
         <p>用户名</p>
         <p>地区</p>
         <p>ch1</p>
@@ -75,7 +75,7 @@ Github UserName:<input type="text" name="UserName">
         <p>ch5</p>
         <p>ch6</p>
         <p>ch7</p>
-        </td>
+        </th>
 
         <td>
         {% for k in result %}
@@ -94,9 +94,34 @@ Github UserName:<input type="text" name="UserName">
     <p>{{k}}</p>
     {% endfor %}
 {% elif py103 %}
-    {% for k in py103 %}
-    {{k}}
+
+    <table align= "center">
+    <tr>
+        <th>地区</th>
+        <th>chap1</th>
+        <th>chap2</th>
+        <th>chap3</th>
+        <th>chap4</th>
+        <th>chap5</th>
+        <th>chap6</th>
+        <th>chap7</th>
+    </tr>
+    
+    {% for k in py103.keys() %}
+    <tr>    
+    <td>{{k}}</td>
+
+        {% for value in py103[k].values() %}
+        <td>{{value}}</td>
+        {% endfor %}
+    </tr>
     {% endfor %}
+    
+    </table>
+    
+
+    
+
 {% else %}
     {% for k in help %}
     {{k}}

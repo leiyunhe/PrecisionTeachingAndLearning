@@ -4,7 +4,6 @@ import requests
 from flask import Flask,request, render_template,g
 import sqlite3
 import datetime
-# import get_submit_time
 from utils.const_value import REPO_OWNER, REPO_NAME, USERNAME,PASSWORD,AREA,payload,payload1,payload2,TIME,DATABASE,LABEL,STATE,PAGE
 
 app = Flask(__name__)
@@ -34,27 +33,23 @@ def query_from_db(name):
 	    print(r)
 	return r
 
+def static_performance():
+	static = {}
+	for area in AREA:
+		static[area] = {}
+	for district in AREA:
+		for column in ['chap1_time','chap2_time','chap3_time','chap4_time','chap5_time','chap6_time','chap7_time']:
+			ls = []
+			for row in get_db().execute('SELECT * FROM submit_issue WHERE area = ? and %s != "None"' % column ,(district,)):
+				ls.append(row)
+			static[district][column] = len(ls)
+	return static
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
-
-def query_area_from_db(aera):
-	r = query_db('select * from submit_issue where area = ?',
-	                [area], one=True)
-	if r is None:
-	    print('No such user')
-	else:
-	    print(r)
-	return r
-
-def fetch_db():
-	
-	for row in get_db().execute('SELECT * FROM submit_issue ORDER by github_user_name'):
-		print(row)
-	conn.commit()
-	conn.close()	
 
 
 @app.route('/', methods = ['POST', 'GET'])
@@ -84,9 +79,7 @@ def index():
 			# 	s.append(item)
 			# s[0] = fetch_db()
 			# # s = fetch_db()
-			s = ['alldata']
-			for area in AREA:
-				s = query_area_from_db(area)
+			s = static_performance()
 			return render_template(PAGE, py103 = s)
 		else:
 			return render_template(PAGE)
