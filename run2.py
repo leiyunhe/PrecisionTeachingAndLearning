@@ -40,6 +40,14 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+def query_area_from_db(aera):
+	r = query_db('select * from submit_issue where area = ?',
+	                [area], one=True)
+	if r is None:
+	    print('No such user')
+	else:
+	    print(r)
+	return r
 
 def fetch_db():
 	
@@ -77,6 +85,8 @@ def index():
 			# s[0] = fetch_db()
 			# # s = fetch_db()
 			s = ['alldata']
+			for area in AREA:
+				s = query_area_from_db(area)
 			return render_template(PAGE, py103 = s)
 		else:
 			return render_template(PAGE)

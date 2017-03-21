@@ -1,0 +1,12 @@
+from utils.const_value import REPO_OWNER, REPO_NAME, USERNAME,PASSWORD,AREA,payload,payload1,payload2,TIME,DATABASE,LABEL,STATE
+
+conn = sqlite3.connect(DATABASE)
+c = conn.cursor()
+
+for row in c.execute('SELECT COUNT(area) FROM submit_issue ORDER by github_user_name WHERE area = "北京"'):
+	print(row)
+
+conn.commit()
+conn.close()
+
+
