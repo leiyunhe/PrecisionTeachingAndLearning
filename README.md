@@ -76,7 +76,7 @@ PrecisionTeachingV2
 - [ ] html页面设计与优化
 - [ ] 增加可查询的学生名单，即数据库中的用户名列表
 - [ ] 撰写用户文档
-- [ ] 数据库使用的是sqlite3，考虑sqlachedamy
+- [ ] 数据库使用的是sqlite3，考虑sqlalchemy
 
 ```bug```
 
