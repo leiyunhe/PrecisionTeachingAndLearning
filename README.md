@@ -9,7 +9,12 @@
 > 版本说明：V1.0
 > 功能：运行在本地服务器的程序。
 
+
 ## 文件目录
+
+
+
+PrecisionTeachingV1
 
 + run.py 主程序
 + templates/index.html 程序的网页模板
@@ -57,6 +62,8 @@
 
 ## 文件目录
 
+PrecisionTeachingV2
+
 + run2.py 主程序
 + templates/index2.html 程序的网页模板
 + update_db_from_api2.py 从github API读取数据，存储到数据库中。
@@ -68,7 +75,7 @@
 - [ ] 前期开发中，未考虑补交作业的绿色通道issue。
 - [ ] html页面设计与优化
 - [ ] 增加可查询的学生名单，即数据库中的用户名列表
-- [ ] 增加文档
+- [ ] 撰写用户文档
 - [ ] 数据库使用的是sqlite3，考虑sqlachedamy
 
 ```bug```
