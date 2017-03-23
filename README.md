@@ -1,7 +1,7 @@
 # PrecisionTeachingAndLearning
 
 
-# 本地运行的程序 ```2017-3-18```
+# V1-本地运行的程序 ```2017-3-18```
 
 ## 说明
 
@@ -37,7 +37,7 @@ PrecisionTeachingV1
     - 历史按钮的返回值，<sqlite3.Row object at 0x03BEFA30>转换为实际的数据，存储并返回。
 
 
-# heroku上运行的程序 ```2017-3-23```
+# V2-heroku上运行的程序 ```2017-3-23```
 
 ## 说明
 
@@ -82,3 +82,5 @@ PrecisionTeachingV2
 
 - [ ] 更新数据库时，用于获取API数据的用户名和密码容易泄露
 
+
+# V3-进行中
