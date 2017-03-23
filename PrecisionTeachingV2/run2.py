@@ -7,7 +7,7 @@ import datetime
 from utils.const_value import REPO_OWNER, REPO_NAME, USERNAME,PASSWORD,AREA,payload,payload1,payload2,TIME,DATABASE,LABEL,STATE,PAGE
 
 app = Flask(__name__)
-
+List_history = []
 
 
 def get_db():
@@ -85,7 +85,7 @@ def index():
 			return render_template(PAGE)
 
 if __name__ == '__main__':
-	List_history = []
+	
 	
 	with app.app_context():
 		# insert_into_db()

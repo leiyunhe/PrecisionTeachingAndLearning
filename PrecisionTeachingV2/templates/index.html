@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+#header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:10px;
+}
+#inputbox {
+    line-height:30px;
+    background-color:white;
+    padding:10px;	      
+}
+#button {
+    background-color:white;
+    padding:10px;	 	 
+}
+#stage {
+    background-color:white;
+    color:black;
+    clear:both;
+    text-align:center;
+    padding:200px;	 	 
+}
+#footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:10px;  
+}
+</style>
+</head>
+
+<body align='center'>
+
+<div id="header">
+<h1>Precision Teaching And Learning</h1>
+</div>
+
+<div id="inputbox">
+<form action="/" method = "post">
+Github UserName:<input type="text" name="UserName">
+
+<input type="submit" name="query" value="查询">
+
+</form>
+</div>
+
+<div id="button">
+
+<form action="/" method = "get">
+<input type="submit" name="button" value="history">
+<input type="submit" name="button" value="help" >
+<input type="submit" name="button" value="Py103" >
+</form>
+</div>
+
+<div id="stage">
+
+{% if result %}
+
+    <table align = "center">
+    <tr>
+        <td>
+        <hr/>
+        <p>用户名<hr/></p>
+        <p>ch1<hr/></p>
+        <p>ch2<hr/></p>
+        <p>ch3<hr/></p>
+        <p>ch4<hr/></p>
+        <p>ch5<hr/></p>
+        <p>ch6<hr/></p>
+        <p>ch7<hr/></p>
+        </td>
+
+        <td>
+        <hr/>
+        {% for k in result %}
+        <p>{{k}}<hr/></p>
+        {% endfor %}
+        </td>
+    </tr>
+    </table>
+
+{% elif help %}
+    {% for k in help %}
+    {{k}}
+    {% endfor %}
+{% elif history %}
+    {% for k in history %}
+    {{k}}
+    {% endfor %}
+{% elif py103 %}
+    {% for k in py103 %}
+    {{k}}
+    {% endfor %}
+{% else %}
+    {% for k in help %}
+    {{k}}
+    {% endfor %}
+{% endif %}
+
+
+</div>
+
+<div id = 'footer'>
+版权所有：雷云鹤  本网页数据来源于开智课堂Py103班级仓库
+</div>
+</body>
+</html>
