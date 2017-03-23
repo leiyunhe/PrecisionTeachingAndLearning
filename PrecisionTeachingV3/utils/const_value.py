@@ -1,10 +1,7 @@
-USERNAME = 'leiyunhe'
-PASSWORD = 'he18801730209'
 TIME = '2017-01-01T00:00:00Z'
 REPO_OWNER = 'AIMinder'
 REPO_NAME = 'Py103'
-
-DATABASE = './database2.db'
+DATABASE = 'database'
 PAGE = 'index2.html'
 
 LABEL = 'task'

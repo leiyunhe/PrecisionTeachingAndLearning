@@ -4,7 +4,7 @@ import requests
 from flask import Flask,request, render_template,g
 import sqlite3
 import datetime
-from utils.const_value import REPO_OWNER, REPO_NAME, USERNAME,PASSWORD,AREA,payload,payload1,payload2,TIME,DATABASE,LABEL,STATE,PAGE
+from utils.const_value import DATABASE, REPO_OWNER, REPO_NAME,AREA,payload,payload1,payload2,TIME,LABEL,STATE,PAGE
 
 app = Flask(__name__)
 List_history = []
@@ -14,6 +14,8 @@ def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
+        # db = g._database = sqlite3.connect(DATABASE)
+
     db.row_factory = sqlite3.Row
     return db
 
@@ -51,7 +53,6 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-
 @app.route('/', methods = ['POST', 'GET'])
 def index():
 	if request.method == 'POST':
@@ -74,11 +75,6 @@ def index():
 			s = List_history
 			return render_template(PAGE, history = s)
 		elif request.args.get('button') == 'Py103':
-			# s = []
-			# for item in fetch_db():
-			# 	s.append(item)
-			# s[0] = fetch_db()
-			# # s = fetch_db()
 			s = static_performance()
 			return render_template(PAGE, py103 = s)
 		else:
@@ -86,7 +82,5 @@ def index():
 
 if __name__ == '__main__':
 	
-	
 	with app.app_context():
-		# insert_into_db()
 		app.run(debug=True)

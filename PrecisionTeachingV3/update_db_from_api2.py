@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import json
 import requests
 from flask import g
 import sqlite3
-from utils.const_value import REPO_OWNER, REPO_NAME, USERNAME,PASSWORD,AREA,payload,payload1,payload2,TIME,DATABASE,LABEL,STATE
-
+# from utils.const_value import REPO_OWNER, REPO_NAME, USERNAME,PASSWORD,AREA,payload,payload1,payload2,TIME,DATABASE,LABEL,STATE
+from utils.const_value import DATABASE, REPO_OWNER, REPO_NAME, AREA,payload,payload1,payload2,TIME,LABEL,STATE
+from login import login
 
 def get_stu_index():
 	'''通过第一个issue，下载py103的学员索引'''
@@ -130,6 +133,11 @@ def insert_into_db():
 
 
 if __name__ == '__main__':
+
+	argv = login.login()
+	USERNAME = argv[0]
+	PASSWORD = argv[1]
+
 	conn = sqlite3.connect(DATABASE)
 	c = conn.cursor()
 
