@@ -1,4 +1,4 @@
-TIME = '2017-01-01T00:00:00Z'
+TIME = '2016-12-20T00:00:00Z'
 REPO_OWNER = 'AIMinder'
 REPO_NAME = 'Py103'
 DATABASE = 'database'
@@ -16,3 +16,5 @@ payload1 = {'state':STATE,
 
 payload2 = {'labels': LABEL,
 			'state': STATE}
+payload5 = {'state':STATE,
+            'since':TIME}

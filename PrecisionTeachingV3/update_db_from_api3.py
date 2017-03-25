@@ -40,7 +40,7 @@ def get_stu_index():
 	return github_user
 
 
-def submit_task_issue(ISSUE_NUMBER):
+def submit_task_issue(ISSUE_NUMBER,payload):
 	'''
 	List comments on an issue
 	return: user_name, comments_url, created_at_time
@@ -49,7 +49,7 @@ def submit_task_issue(ISSUE_NUMBER):
 	url = 'https://api.github.com/repos/%s/%s/issues/%s/comments' % (REPO_OWNER, REPO_NAME,ISSUE_NUMBER)
 	s = requests.session()
 	s.auth = (USERNAME,PASSWORD)
-	r = s.get(url,params = payload2)
+	r = s.get(url,params = payload)
 	result = json.loads(r.text)
 	ls = []
 	for x in result:
@@ -89,11 +89,17 @@ def get_all_issues(payload):
     return issue_ls
 
 def issues_static(payload):
-	issue_info = get_all_issues(payload5)
+	issue_info = get_all_issues(payload)
 	for x in issue_info:
-    	print([x[0],x[2],x[3]])
-    	c.execute('INSERT INTO issue_num (issue_num, issue_creator, issue_comment) VALUES (?,?,?)',(x[0],x[1],x[2]))
-    conn.commit()
+		# print(x[1],x[2],x[3])
+		comments_ls = submit_task_issue(x[1],payload)
+		ls = []
+		for comment in comments_ls:
+			d = comment[0]+":"+comment[1]
+			ls.append(d)
+		print(x[1],x[2],x[3],str(ls))
+		c.execute('INSERT INTO issue_info (issue_num, issue_creator, issue_comment,comment_content) VALUES (?,?,?,?)',(x[1],x[2],x[3],str(ls)))
+	conn.commit()
 
 
 def get_issue_number(area, issues):
@@ -115,7 +121,7 @@ def insert_into_db(payload):
 			issue_num = ls_area_issue_numbers[ch_num]
 			print(issue_num)
 			if issue_num:
-				comments =  submit_task_issue(issue_num)
+				comments =  submit_task_issue(issue_num,payload)
 
 				for comment in comments:
 					if 'https://github.com/' in comment[2]:
@@ -155,12 +161,12 @@ if __name__ == '__main__':
 	for stu in get_stu_index():
 		c.execute('INSERT INTO submit_issue (github_user_name, area) VALUES (?,?)',(stu[0],stu[1]))
 	conn.commit()
-	
+
 	insert_into_db(payload1)
 	for row in c.execute('SELECT * FROM submit_issue ORDER by github_user_name'):
 		print(row)
 
-	c.execute('CREATE TABLE issue_info (issue_num TEXT, issue_creator TEXT,issue_comment TEXT)')
+	c.execute('CREATE TABLE issue_info (issue_num TEXT, issue_creator TEXT,issue_comment TEXT,comment_content TEXT)')
 	print('Table issue_info successfully')
 	issues_static(payload5)
 	for row in c.execute('SELECT * FROM issue_info ORDER by issue_num'):

@@ -7,7 +7,7 @@
     background-color:black;
     color:white;
     text-align:center;
-    padding:10px;
+    padding:8px;
 }
 #inputbox {
     line-height:30px;
@@ -23,8 +23,9 @@
     color:black;
     clear:both;
     text-align:center;
-    padding:200px;
-    vertical-align:top;	 	 
+    padding:35px;
+    vertical-align:top;	
+
 }
 #footer {
     background-color:black;
@@ -32,7 +33,9 @@
     clear:both;
     text-align:center;
     padding:10px;  
+
 }
+
 </style>
 </head>
 
@@ -63,7 +66,7 @@ Github UserName:<input type="text" name="UserName">
 <div id="stage">
 
 {% if result %}
-
+    <p>您在课程中的各单元作业提交时间</p>
     <table align = "center" border="1">
     <tr>
         <th>用户名</th>
@@ -75,42 +78,46 @@ Github UserName:<input type="text" name="UserName">
         <th>ch5</th>
         <th>ch6</th>
         <th>ch7</th>
-<!--         <p>用户名</p>
-        <p>地区</p>
-        <p>ch1</p>
-        <p>ch2</p>
-        <p>ch3</p>
-        <p>ch4</p>
-        <p>ch5</p>
-        <p>ch6</p>
-        <p>ch7</p>
-        </th> -->
-
-<!--         <td>
-        {% for k in result %}
-        <p>{{k}}</p>
-        {% endfor %}
-        </td> -->
     </tr>
     <tr>
-         {% for k in result %}
-         <td>{{k}}</td>
+        {% for k in result[0] %}
+            {% for m in k %}
+            <td>{{m}}</td>
+            {% endfor %}
         {% endfor %}
     </tr>
 
     </table>
-
+    </br>
+    <div align= 'left'>
+         <p>您发布的issue（包括创建的，和评论回复）总数为
+        {% for count in result[-1:] %}
+         {{count}}
+        {% endfor %}
+         </p>
+    
+    <p>其中，您创建issue的情况：</br>
+    {% for k in result[1] %}
+        <ul> 
+        <li>编号为{{k[0]}}的issue共有{{k[2]}}条comment</li></br>
+        </ul>
+    {% endfor %}
+    </p>
+    </div>
 {% elif help %}
+    <div>
     {% for k in help %}
     {{k}}
     {% endfor %}
+    </div>
 {% elif history %}
     {% for k in history %}
     <p>{{k}}</p>
     {% endfor %}
 {% elif py103 %}
+    <p>各区域各单元作业提交人数统计</p>
 
-    <table align= "center" border="1">
+    <table align= "center" border="1" height='300' width='600'>
     <tr>
         <th>地区</th>
         <th>chap1</th>

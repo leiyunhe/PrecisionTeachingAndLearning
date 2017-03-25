@@ -16,22 +16,27 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
         # db = g._database = sqlite3.connect(DATABASE)
 
-    db.row_factory = sqlite3.Row
+    #db.row_factory = sqlite3.Row
     return db
 
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
     rv = cur.fetchall()
+    # print(rv)
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
-def query_from_db(name):
+def query_from_db(table, index, value):
 	'''通过用户github名称，从数据库查询用户每个单元作业的提交时间'''
-	r = query_db('select * from submit_issue where github_user_name = ?',
-	                [name], one=True)
+	ls = []
+	r = query_db('select * from %s where %s = ?' % (table, index),
+	                [value], one=False)
 	if r is None:
 	    print('No such user')
 	else:
+	    # r = ls.append(r)
+	    # for item in r:
+	    # 	print(item)
 	    print(r)
 	return r
 
@@ -47,6 +52,22 @@ def static_performance():
 			static[district][column] = len(ls)
 	return static
 
+def issue_stats(username):
+	ls = []
+	for row in get_db().execute('SELECT * FROM issue_info WHERE issue_creator = ?' % (username,)):
+		ls.apend(tuple(row))
+
+def count_issue(data,value):
+	num =0
+	for comment in data:
+		if value in comment[1]:
+			num += 1
+		s = comment[3].split(",")
+		for item in s:
+			if value in item:
+				num += 1
+	return num
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -59,10 +80,18 @@ def index():
 		r = request.form['UserName']
 
 		if r and request.form['query'] == '查询':
-			s = query_from_db(r)
+			s = query_from_db('submit_issue', 'github_user_name', r)
+			q = query_from_db('issue_info', 'issue_creator',r)
 			# print(s,type(s))
-			List_history.append(tuple(s))		
-			return render_template(PAGE, result = s)
+			List_history.append(tuple(s))
+			List_history.append(tuple(q))
+
+			count = 0
+			for number in range(294):
+				w = query_from_db('issue_info','issue_num',number)
+				# print(tuple(w))
+				count += count_issue(w,r)
+			return render_template(PAGE, result = (s,q,count))
 		else:
 			s = ['请AIMinder Py103学员输入GitHub用户名，进行查询']
 			return render_template(PAGE, result = s)		

@@ -1,0 +1,1 @@
+[0325/071637:ERROR:process_info.cc(372)] NtQuerySystemInformation SystemExtendedHandleInformation: 系统资源不够，无法完成 API。  (0xc000009a)
