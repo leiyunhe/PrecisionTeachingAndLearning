@@ -7,7 +7,7 @@
     background-color:black;
     color:white;
     text-align:center;
-    padding:10px;
+    padding:8px;
 }
 #inputbox {
     line-height:30px;
@@ -23,7 +23,9 @@
     color:black;
     clear:both;
     text-align:center;
-    padding:200px;	 	 
+    padding:35px;
+    vertical-align:top;	
+
 }
 #footer {
     background-color:black;
@@ -31,7 +33,9 @@
     clear:both;
     text-align:center;
     padding:10px;  
+
 }
+
 </style>
 </head>
 
@@ -62,42 +66,84 @@ Github UserName:<input type="text" name="UserName">
 <div id="stage">
 
 {% if result %}
-
-    <table align = "center">
+    <p>您在课程中的各单元作业提交时间</p>
+    <table align = "center" border="1">
     <tr>
-        <td>
-        <hr/>
-        <p>用户名<hr/></p>
-        <p>ch1<hr/></p>
-        <p>ch2<hr/></p>
-        <p>ch3<hr/></p>
-        <p>ch4<hr/></p>
-        <p>ch5<hr/></p>
-        <p>ch6<hr/></p>
-        <p>ch7<hr/></p>
-        </td>
-
-        <td>
-        <hr/>
-        {% for k in result %}
-        <p>{{k}}<hr/></p>
-        {% endfor %}
-        </td>
+        <th>用户名</th>
+        <th>地区</th>
+        <th>ch1</th>
+        <th>ch2</th>
+        <th>ch3</th>
+        <th>ch4</th>
+        <th>ch5</th>
+        <th>ch6</th>
+        <th>ch7</th>
     </tr>
-    </table>
+    <tr>
+        {% for k in result[0] %}
+            {% for m in k %}
+            <td>{{m}}</td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
 
+    </table>
+    </br>
+    <div align= 'left'>
+         <p>您发布的issue（包括创建的，和评论回复）总数为
+        {% for count in result[-1:] %}
+         {{count}}
+        {% endfor %}
+         </p>
+    
+    <p>其中，您创建issue的情况：</br>
+    {% for k in result[1] %}
+        <ul> 
+        <li>编号为{{k[0]}}的issue共有{{k[2]}}条comment</li></br>
+        </ul>
+    {% endfor %}
+    </p>
+    </div>
 {% elif help %}
+    <div>
     {% for k in help %}
     {{k}}
     {% endfor %}
+    </div>
 {% elif history %}
     {% for k in history %}
-    {{k}}
+    <p>{{k}}</p>
     {% endfor %}
 {% elif py103 %}
-    {% for k in py103 %}
-    {{k}}
+    <p>各区域各单元作业提交人数统计</p>
+
+    <table align= "center" border="1" height='300' width='600'>
+    <tr>
+        <th>地区</th>
+        <th>chap1</th>
+        <th>chap2</th>
+        <th>chap3</th>
+        <th>chap4</th>
+        <th>chap5</th>
+        <th>chap6</th>
+        <th>chap7</th>
+    </tr>
+    
+    {% for k in py103.keys() %}
+    <tr>    
+    <td>{{k}}</td>
+
+        {% for value in py103[k].values() %}
+        <td>{{value}}</td>
+        {% endfor %}
+    </tr>
     {% endfor %}
+    
+    </table>
+    
+
+    
+
 {% else %}
     {% for k in help %}
     {{k}}

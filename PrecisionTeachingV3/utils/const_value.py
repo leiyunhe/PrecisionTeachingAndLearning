@@ -2,7 +2,7 @@ TIME = '2016-12-20T00:00:00Z'
 REPO_OWNER = 'AIMinder'
 REPO_NAME = 'Py103'
 DATABASE = 'database'
-PAGE = 'index2.html'
+PAGE = 'index.html'
 
 LABEL = 'task'
 STATE = 'all'
