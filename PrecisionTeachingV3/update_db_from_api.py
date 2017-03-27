@@ -111,26 +111,30 @@ def get_issue_number(area, issues):
 				issue_number[chapter] = issue[1]
 	return issue_number
 
-def statics_code(USERNAME):
+def statics_code(github_user):
     # GET /repos/:owner/:repo/stats/contributors
-    url = 'https://api.github.com/repos/%s/Py103/stats/contributors' % (USERNAME)
+    url = 'https://api.github.com/repos/%s/Py103/stats/contributors' % (github_user)
     s = requests.session()
     print(s)
     s.auth = (USERNAME,PASSWORD)
     r = s.get(url)
-    result = json.loads(r.text)
-    # print(result)
-    addition = deletion = commits = 0
-    for item in result:
-    #     print(item['weeks'])
-        if item['author']['login'] == USERNAME:
-            print(item['author']['login'],item["weeks"])
-            for m in item["weeks"]:
-                addition += m['a']
-                deletion += m['d']
-                commits += m['c']
-
-    return (addition,deletion,commits)
+    if '404' in r:
+    	pass
+    else:
+	    result = json.loads(r.text)
+	    # print(result)
+	    addition = deletion = commits = 0
+	    for item in result:
+	    #     print(item['weeks'])
+	        if item['author']['login'] == github_user:
+	            print(item['author']['login'],item["weeks"])
+	            for m in item["weeks"]:
+	                addition += m['a']
+	                deletion += m['d']
+	                commits += m['c']
+	        else:
+	        	pass
+	    return (addition,deletion,commits)
 
 def insert_into_db(payload):
 	'''update db from API'''
@@ -175,28 +179,35 @@ if __name__ == '__main__':
 	conn = sqlite3.connect(DATABASE)
 	c = conn.cursor()
 
-	c.execute('CREATE TABLE submit_issue (github_user_name TEXT, area TEXT, chap1_time TEXT, chap2_time TEXT, chap3_time TEXT, chap4_time TEXT, chap5_time TEXT, chap6_time TEXT,chap7_time TEXT)')
-	print("Table created successfully")
+	# c.execute('CREATE TABLE submit_issue (github_user_name TEXT, area TEXT, chap1_time TEXT, chap2_time TEXT, chap3_time TEXT, chap4_time TEXT, chap5_time TEXT, chap6_time TEXT,chap7_time TEXT)')
+	# print("Table created successfully")
 
+	# for stu in get_stu_index():
+	# 	c.execute('INSERT INTO submit_issue (github_user_name, area) VALUES (?,?)',(stu[0],stu[1]))
+	# conn.commit()
+
+	# insert_into_db(payload1)
+	# for row in c.execute('SELECT * FROM submit_issue ORDER by github_user_name'):
+	# 	print(row)
+
+	# c.execute('CREATE TABLE issue_info (issue_num TEXT, issue_creator TEXT,issue_comment TEXT,comment_content TEXT)')
+	# print('Table issue_info successfully')
+	# issues_static(payload5)
+	# for row in c.execute('SELECT * FROM issue_info ORDER by issue_num'):
+	# 	print(row)
+
+	c.execute('CREATE TABLE stats_code (github_user_name TEXT, stats_addition TEXT,stats_deletion TEXT,stats_commits TEXT)')
+	print('Table issue_info successfully')
 	for stu in get_stu_index():
-		c.execute('INSERT INTO submit_issue (github_user_name, area) VALUES (?,?)',(stu[0],stu[1]))
+		print(stu[0])
+		contribute = statics_code(stu[0])
+		print(contribute)
+		c.execute('INSERT INTO stats_code (github_user_name, stats_addition,stats_deletion,stats_commits) VALUES (?,?,?,?)',(stu[0],contribute[0],contribute[1],contribute[2]))
+		
 	conn.commit()
 
-	insert_into_db(payload1)
-	for row in c.execute('SELECT * FROM submit_issue ORDER by github_user_name'):
-		print(row)
-
-	c.execute('CREATE TABLE issue_info (issue_num TEXT, issue_creator TEXT,issue_comment TEXT,comment_content TEXT)')
-	print('Table issue_info successfully')
-	issues_static(payload5)
-	for row in c.execute('SELECT * FROM issue_info ORDER by issue_num'):
-		print(row)
-
-	c.execute('CREATE TABLE stats_code (github_user_name TEXT, stats TEXT)')
-	print('Table issue_info successfully')
-	statics_code(USERNAME)
 	for row in c.execute('SELECT * FROM stats_code ORDER by github_user_name'):
-		print(row)		
+		print(row)
 
 	conn.commit()
 	conn.close()

@@ -84,18 +84,18 @@ def index():
 			q = query_from_db('issue_info', 'issue_creator',r)
 			n = query_from_db('stats_code','github_user_name',r)
 			# print(s,type(s))
-			List_history.append(tuple(s))
-			List_history.append(tuple(q))
-			List_history.append(tuple(n))
+
 			count = 0
 			for number in range(294):
 				w = query_from_db('issue_info','issue_num',number)
 				# print(tuple(w))
 				count += count_issue(w,r)
+
+			List_history.append((tuple(s),tuple(q),tuple(n)))	
 			return render_template(PAGE, result = (s,q,n,count))
 		else:
 			s = ['请AIMinder Py103学员输入GitHub用户名，进行查询']
-			return render_template(PAGE, result = s)		
+			return render_template(PAGE, help = s)		
 
 	else:
 		if request.args.get('button') == 'help':
