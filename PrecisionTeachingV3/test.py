@@ -23,8 +23,11 @@ def return_lines(url):
 		return m[0]
 	print(1)
 # url = 'https://github.com/leiyunhe/PrecisionTeachingAndLearning/blob/master/PrecisionTeachingV3/issue_creator.py'
-# r = return_lines(url)
-# print(r)
+url =  'https://github.com/leiyunhe/Py103/blob/master/Chap1/project/1w-query.py'
+USER = 'leiyunhe'
+PASSWORD = 'he18801730209'
+r = return_lines(url)
+print(r)
 
 def get_file(url):
 # GET /repos/:owner/:repo/contents/:path
@@ -33,7 +36,7 @@ def get_file(url):
 	r = s.get(url)
 	print(r)
 	result = json.loads(r.text)
-	# print(result)
+	print(result)
 	ls = []
 	# print(result[0])
 	# print(result[1])
@@ -53,22 +56,22 @@ def get_file(url):
 	return ls
 	
 
-if __name__ == '__main__':
-	url = 'https://api.github.com/repos/leiyunhe/Py103/contents/Chap1/project'
-	USER = 'leiyunhe'
-	PASSWORD = 'he18801730209'
-	file_ls = get_file(url)
-	print('get code list',file_ls)
-	num = 0
-	for file in file_ls:
-		# print(file,return_lines(file))
-		print(file)
-		m = return_lines(file)
-		print(file,m,'succeed')
-		if m:
-			num += int(m)
-			print(3)
-	print(num)
+# if __name__ == '__main__':
+# 	url = 'https://api.github.com/repos/leiyunhe/Py103/contents/Chap1/project/1w-query.py'
+# 	USER = 'leiyunhe'
+# 	PASSWORD = 'he18801730209'
+# 	file_ls = get_file(url)
+# 	print('get code list',file_ls)
+# 	num = 0
+# 	for file in file_ls:
+# 		# print(file,return_lines(file))
+# 		print(file)
+# 		m = return_lines(file)
+# 		print(file,m,'succeed')
+# 		if m:
+# 			num += int(m)
+# 			print(3)
+# 	print(num)
 
 
 # # def save_user_code_lines(USERNAME,CHAPTER):
