@@ -6,7 +6,7 @@ def return_lines(url):
 	s = requests.session()
 	s.auth = (USER,PASSWORD)
 	r = s.get(url)
-	print(r)
+	print("return_lines_test",r)
 	html_doc = r.text
 	# print(html_doc)
 	soup = BeautifulSoup(html_doc, 'html.parser')
@@ -47,8 +47,8 @@ if __name__ == '__main__':
 		succeed'''
 	# url = 'https://api.github.com/repos/leiyunhe/PrecisionTeachingAndLearning/contents/PrecisionTeachingV3'
 	url = 'https://api.github.com/repos/leiyunhe/Py103/contents/Chap1/project'
-	USER = 'leiyunhe'
-	PASSWORD = 'HE18801730209'
+	USER = input('用户名：')
+	PASSWORD = input("密码：")
 	file_ls = get_file(url)
 	num = 0
 	print(file_ls)
