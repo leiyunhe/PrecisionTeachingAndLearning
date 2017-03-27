@@ -90,11 +90,19 @@ Github UserName:<input type="text" name="UserName">
     </table>
     </br>
     <div align= 'left'>
-         <p>您发布的issue（包括创建的，和评论回复）总数为
-        {% for count in result[-1:] %}
-         {{count}}
-        {% endfor %}
-         </p>
+    <p>您的数据情况为
+    {% for stat in result[2] %}
+  
+
+            {{stat}}
+
+    {% endfor %}
+    </p>
+    <p>您发布的issue（包括创建的，和评论回复）总数为
+    {% for count in result[-1:] %}
+        {{count}}
+    {% endfor %}
+    </p>
     
     <p>其中，您创建issue的情况：</br>
     {% for k in result[1] %}

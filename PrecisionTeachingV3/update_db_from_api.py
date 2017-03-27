@@ -111,6 +111,26 @@ def get_issue_number(area, issues):
 				issue_number[chapter] = issue[1]
 	return issue_number
 
+def statics_code(USERNAME):
+    # GET /repos/:owner/:repo/stats/contributors
+    url = 'https://api.github.com/repos/%s/Py103/stats/contributors' % (USERNAME)
+    s = requests.session()
+    print(s)
+    s.auth = (USERNAME,PASSWORD)
+    r = s.get(url)
+    result = json.loads(r.text)
+    # print(result)
+    addition = deletion = commits = 0
+    for item in result:
+    #     print(item['weeks'])
+        if item['author']['login'] == USERNAME:
+            print(item['author']['login'],item["weeks"])
+            for m in item["weeks"]:
+                addition += m['a']
+                deletion += m['d']
+                commits += m['c']
+
+    return (addition,deletion,commits)
 
 def insert_into_db(payload):
 	'''update db from API'''
@@ -171,6 +191,12 @@ if __name__ == '__main__':
 	issues_static(payload5)
 	for row in c.execute('SELECT * FROM issue_info ORDER by issue_num'):
 		print(row)
+
+	c.execute('CREATE TABLE stats_code (github_user_name TEXT, stats TEXT)')
+	print('Table issue_info successfully')
+	statics_code(USERNAME)
+	for row in c.execute('SELECT * FROM stats_code ORDER by github_user_name'):
+		print(row)		
 
 	conn.commit()
 	conn.close()
