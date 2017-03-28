@@ -1,6 +1,17 @@
 # PrecisionTeachingAndLearning
 
++ [研究计划](https://github.com/leiyunhe/PrecisionTeachingAndLearning/blob/master/DevPlan.md)
++ [功能需求书](https://github.com/leiyunhe/PrecisionTeachingAndLearning/blob/master/FunctionalRequirement.md)
++ [开发版本日志](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/12)
+  + [V2说明](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/10)
+  + [V3说明](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/11)
++ [路演资料](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/9)
+  + [视频文案](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/16)
+  + [视频设计资料](https://github.com/leiyunhe/PrecisionTeachingAndLearning/tree/master/ppt)
+  + [路演步骤](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/18)
 
+
+------------------------------------------
 # V1-本地运行的程序 ```2017-3-18```
 
 ## 说明
