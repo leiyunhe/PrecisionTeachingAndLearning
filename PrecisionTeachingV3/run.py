@@ -86,7 +86,7 @@ def index():
 			# print(s,type(s))
 
 			count = 0
-			for number in range(294):
+			for number in range(298):
 				w = query_from_db('issue_info','issue_num',number)
 				# print(tuple(w))
 				count += count_issue(w,r)

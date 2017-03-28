@@ -44,8 +44,9 @@
 <div id="header">
 <h1>Precision Teaching And Learning</h1>
 </div>
-
+<p><img src= 'https://github.com/leiyunhe/PrecisionTeachingAndLearning/blob/master/pic/01-precisionteachinglogo.jpg?raw=true' height='200' width='300'></p>
 <div id="inputbox">
+
 <form action="/" method = "post">
 Github UserName:<input type="text" name="UserName">
 
@@ -66,7 +67,15 @@ Github UserName:<input type="text" name="UserName">
 <div id="stage">
 
 {% if result %}
-    <p>您在课程中的各单元作业提交时间</p>
+    
+    你正在查看
+    <h2>
+        {% for k in result[0] %}
+        {{k[0]}}
+        {% endfor %}
+    的Py103学习报告
+    </h2>
+    <p>各单元作业提交时间</p>
     <table align = "center" border="1">
     <tr>
         <th>用户名</th>
@@ -89,26 +98,34 @@ Github UserName:<input type="text" name="UserName">
 
     </table>
     </br>
-    <div align= 'left'>
-    <p>您的数据情况为
+    <div align= 'center'>
+    <p>你提交代码
+        
     {% for stat in result[2] %}
-  
+        {% for m in stat[1:2] %}
+        Addition:【{{stat[1]}}行】
+    删除代码Deletion:【{{stat[2]}}行】
 
-            {{stat}}
 
+        {% endfor %}
+        {% for n in stat[-1:] %}
+    修改代码Commits:【{{n}}次】
+        {% endfor %}
     {% endfor %}
-    </p>
-    <p>您发布的issue（包括创建的，和评论回复）总数为
+   </p>
+    <p>你发布了
     {% for count in result[-1:] %}
-        {{count}}
+        {{count}}条issue（包括由你创建的，和评论回复他人创建）
     {% endfor %}
-    </p>
     
-    <p>其中，您创建issue的情况：</br>
+    
+    </p>
+    <p align='center'>其中，你创建issue的详细情况为</br>
     {% for k in result[1] %}
-        <ul> 
-        <li>编号为{{k[0]}}的issue共有{{k[2]}}条comment</li></br>
-        </ul>
+
+        <p align='center'> 
+        <p align='center'>编号为{{k[0]}}的issue共有{{k[2]}}条comment</p>
+        </p>
     {% endfor %}
     </p>
     </div>
