@@ -2,13 +2,21 @@
 
 + [研究计划](https://github.com/leiyunhe/PrecisionTeachingAndLearning/blob/master/DevPlan.md)
 + [功能需求书](https://github.com/leiyunhe/PrecisionTeachingAndLearning/blob/master/FunctionalRequirement.md)
++ [项目仓库](https://github.com/leiyunhe/PrecisionTeachingAndLearning)
++ V2基础版本： [成果](https://precisionteach.herokuapp.com/)   [纯净代码](https://github.com/leiyunhe/PrecisionTeching)
+  V3新版：[V3.0成果](https://learninganalytics.herokuapp.com/) [V3.1成果](https://precisionlearning.herokuapp.com/)  [纯净代码](https://github.com/leiyunhe/learninganalytics)
+          
 + [开发版本日志](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/12)
   + [V2说明](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/10)
   + [V3说明](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/11)
 + [路演资料](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/9)
+  + [视频连接]
+      + [网盘链接](http://pan.baidu.com/s/1c1UO0m)
+      + [腾讯视频链接](https://v.qq.com/x/page/c0387orja25.html)
   + [视频文案](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/16)
   + [视频设计资料](https://github.com/leiyunhe/PrecisionTeachingAndLearning/tree/master/ppt)
   + [路演步骤](https://github.com/leiyunhe/PrecisionTeachingAndLearning/issues/18)
+
 
 
 ------------------------------------------
