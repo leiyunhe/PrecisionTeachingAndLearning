@@ -107,6 +107,12 @@ def index():
 		elif request.args.get('button') == 'Py103':
 			s = static_performance()
 			return render_template(PAGE, py103 = s)
+		elif request.args.get('button') =='长三角':
+			shanghai = query_from_db('submit_issue','area', '长三角')
+			return render_template(PAGE, area_shanghai = shanghai)
+		elif request.args.get('button') =='北京':
+			beijing = query_from_db('submit_issue','area', '北京')
+			return render_template(PAGE, area_beijing = beijing)
 		else:
 			return render_template(PAGE)
 

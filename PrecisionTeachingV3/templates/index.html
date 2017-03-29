@@ -61,6 +61,8 @@ Github UserName:<input type="text" name="UserName">
 <input type="submit" name="button" value="history">
 <input type="submit" name="button" value="help" >
 <input type="submit" name="button" value="Py103" >
+<input type="submit" name="button" value="长三角" >
+<input type="submit" name="button" value="北京" >
 </form>
 </div>
 
@@ -170,9 +172,26 @@ Github UserName:<input type="text" name="UserName">
     
     </table>
     
-
-    
-
+{% elif area_shanghai %}
+<table border="1">
+    {% for stu_item in area_shanghai %}
+    <tr>
+    {% for item in stu_item %}
+       <td> {{item}}</td>
+    {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% elif area_beijing %}
+<table border='1'>
+    {% for stu_item in area_beijing %}
+    <tr>
+    {% for item in stu_item %}
+        <td>{{item}}</td>
+    {% endfor %}
+    </tr>
+    {% endfor %}  
+</table>
 {% else %}
     {% for k in help %}
     {{k}}
