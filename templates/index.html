@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+#header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:8px;
+}
+#inputbox {
+    line-height:30px;
+    background-color:white;
+    padding:10px;	      
+}
+#button {
+    background-color:white;
+    padding:10px;	 	 
+}
+#stage {
+    background-color:white;
+    color:black;
+    clear:both;
+    text-align:center;
+    padding:35px;
+    vertical-align:top;	
+
+}
+#footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:10px;  
+
+}
+
+</style>
+</head>
+
+<body align='center'>
+
+<div id="header">
+<h1>Precision Teaching And Learning</h1>
+</div>
+<div align ='center'>
+<p align ='center'><img src= 'https://github.com/leiyunhe/PrecisionTeachingAndLearning/blob/master/pic/01-precisionteachinglogo.jpg?raw=true' height='200' width='300'></p>
+</div>
+<div id="inputbox" align ='center'>
+
+<form action="/query" method = "post">
+Github UserName:<input type="text" name="UserName">
+
+<input type="submit" name="query" value="查询">
+
+</form>
+</div>
+
+<div id="button" align ='center'>
+
+<form action="/query" method = "get">
+<input type="submit" name="button" value="history">
+<input type="submit" name="button" value="help" >
+<input type="submit" name="button" value="Py103" >
+<p><a href='/logout'>Logout</a></p>
+</form>
+</div>
+
+<div id="stage">
+
+{% if result %}
+    
+    你正在查看
+    <h2>
+        {% for k in result[0] %}
+        {{k[0]}}
+        {% endfor %}
+    的Py103学习报告
+    </h2>
+    <p>各单元作业提交时间</p>
+    <table align = "center" border="1">
+    <tr>
+        <th>用户名</th>
+        <th>地区</th>
+        <th>ch1</th>
+        <th>ch2</th>
+        <th>ch3</th>
+        <th>ch4</th>
+        <th>ch5</th>
+        <th>ch6</th>
+        <th>ch7</th>
+    </tr>
+    <tr>
+        {% for k in result[0] %}
+            {% for m in k %}
+            <td>{{m}}</td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    </table>
+    </br>
+    <div align= 'center'>
+    <p>你提交代码
+        
+    {% for stat in result[2] %}
+        {% for m in stat[1:2] %}
+        Addition:【{{stat[1]}}行】
+    删除代码Deletion:【{{stat[2]}}行】
+
+
+        {% endfor %}
+        {% for n in stat[-1:] %}
+    修改代码Commits:【{{n}}次】
+        {% endfor %}
+    {% endfor %}
+   </p>
+    <p>你发布了
+    {% for count in result[-1:] %}
+        {{count}}条issue（包括由你创建的，和评论回复他人创建）
+    {% endfor %}
+    
+    
+    </p>
+    <p align='center'>其中，你创建issue的详细情况为</br>
+    {% for k in result[1] %}
+
+        <p align='center'> 
+        <p align='center'>编号为{{k[0]}}的issue共有{{k[2]}}条comment</p>
+        </p>
+    {% endfor %}
+    </p>
+    </div>
+{% elif help %}
+    <div>
+    {% for k in help %}
+    {{k}}
+    {% endfor %}
+    </div>
+{% elif history %}
+    {% for k in history %}
+        <p>
+        
+            {{k}}
+        
+        </p>
+    {% endfor %}
+{% elif py103 %}
+    <p>各区域各单元作业提交人数统计</p>
+
+    <table align= "center" border="1" height='300' width='600'>
+    <tr>
+        <th>地区</th>
+        <th>chap1</th>
+        <th>chap2</th>
+        <th>chap3</th>
+        <th>chap4</th>
+        <th>chap5</th>
+        <th>chap6</th>
+        <th>chap7</th>
+    </tr>
+    
+    {% for k in py103.keys() %}
+    <tr>    
+    <td>{{k}}</td>
+
+        {% for value in py103[k].values() %}
+        <td>{{value}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    
+    </table>
+    
+
+    
+
+{% else %}
+    {% for k in help %}
+    {{k}}
+    {% endfor %}
+{% endif %}
+
+
+</div>
+
+<div id = 'footer'>
+版权所有：雷云鹤  本网页数据来源于开智课堂Py103班级仓库
+</div>
+</body>
+</html>
