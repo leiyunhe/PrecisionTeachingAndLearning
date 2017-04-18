@@ -63,3 +63,14 @@ def count_issue(data,value):
 			if value in item:
 				num += 1
 	return num
+
+
+def create_table(cursor, table,columns):
+	try:
+		cursor.execute('CREATE TABLE %s %s' % (table,columns))
+	except:
+		print("Table exits!")
+		cursor.execute('DELETE FROM %s' % table)
+		print("Table has been deleted!")
+	finally:
+		print("Table created successfully!")

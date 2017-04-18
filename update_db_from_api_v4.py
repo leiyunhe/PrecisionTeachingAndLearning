@@ -6,7 +6,8 @@ from flask import g
 import sqlite3
 # from utils.const_value import REPO_OWNER, REPO_NAME, USERNAME,PASSWORD,AREA,payload,payload1,payload2,TIME,DATABASE,LABEL,STATE
 from utils.const_value import DATABASE, REPO_OWNER, REPO_NAME, AREA,payload,payload1,payload2,payload5,TIME,LABEL,STATE
-from login import login
+from utils import login
+import query_function as qf
 
 def get_stu_index():
 	'''通过第一个issue，下载py103的学员索引'''
@@ -171,11 +172,6 @@ def insert_into_db(payload):
 						pass
 					conn.commit()		
 
-def task_rank():
-	c.execute('SELECT github_user_name, chap1_time FROM submit_issue ORDER BY chap1_time')
-	
-	c.execute('UPDATE submit_issue SET ch1_rank = ?, ch2_rank = ? WHERE , ch3_rank, ch4_rank, ch5_rank, ch6_rank, ch7_rank)')
-
 
 if __name__ == '__main__':
 
@@ -186,9 +182,8 @@ if __name__ == '__main__':
 	conn = sqlite3.connect(DATABASE)
 	c = conn.cursor()
 
-	c.execute('CREATE TABLE submit_issue (github_user_name TEXT, area TEXT, chap1_time TEXT, chap2_time TEXT, chap3_time TEXT, chap4_time TEXT, chap5_time TEXT, chap6_time TEXT,chap7_time TEXT, ch1_rank TEXT,ch2_rank TEXT,ch3_rank TEXT,ch4_rank TEXT,ch5_rank TEXT,ch6_rank TEXT,ch7_rank TEXT)')
-	print("Table created successfully")
 
+	qf.create_table(c, 'submit_issue','github_user_name TEXT, area TEXT, chap1_time TEXT, chap2_time TEXT, chap3_time TEXT, chap4_time TEXT, chap5_time TEXT, chap6_time TEXT,chap7_time TEXT, ch1_rank TEXT,ch2_rank TEXT,ch3_rank TEXT,ch4_rank TEXT,ch5_rank TEXT,ch6_rank TEXT,ch7_rank TEXT')
 	for stu in get_stu_index():
 		c.execute('INSERT INTO submit_issue (github_user_name, area) VALUES (?,?)',(stu[0],stu[1]))
 	conn.commit()
@@ -197,14 +192,13 @@ if __name__ == '__main__':
 	for row in c.execute('SELECT * FROM submit_issue ORDER by github_user_name'):
 		print(row)
 
-	c.execute('CREATE TABLE issue_info (issue_num TEXT, issue_creator TEXT,issue_comment TEXT,comment_content TEXT)')
-	print('Table issue_info successfully')
+	qf.create_table(c, 'issue_info','issue_num TEXT, issue_creator TEXT,issue_comment TEXT,comment_content TEXT')
+
 	issues_static(payload5)
 	for row in c.execute('SELECT * FROM issue_info ORDER by issue_num'):
 		print(row)
 
-	c.execute('CREATE TABLE stats_code (github_user_name TEXT, stats_addition TEXT,stats_deletion TEXT,stats_commits TEXT)')
-	print('Table issue_info successfully')
+	qf.create_table(c, 'stats_code', 'github_user_name TEXT, stats_addition TEXT,stats_deletion TEXT,stats_commits TEXT')
 	for stu in get_stu_index():
 		print(stu[0])
 		contribute = statics_code(stu[0])
